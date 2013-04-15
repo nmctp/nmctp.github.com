@@ -1,0 +1,18 @@
+---
+layout: post
+title: No Key
+---
+<h2>No Key: a simple library for Shamir&#8217;s no-key  protocol</h2>
+<p>Shamir&#8217;s no-key protocol is a way to encrypt a communication using  finite exponentiation. It is similar to Diffie-Hellman in that it  depends on the difficulty of solving the discrete logarithm problem, but  unlike DH, where both parties agree on a previously unkown datum, the  no-key protocol is used to share <em>information</em> (party A transmit  some data to party B).</p>
+<p>The algorithm is as follows. Assume A wants to transmit message m  (which is an integer number) to B. Both parties have previuosly agreed  on a prime number p, which can be public.</p>
+<ol>
+    <li><strong>A</strong> chooses a random number <code>0&lt;=q1&lt;p</code> such that <code>q1</code> and <code>(p-1)</code> are relatively prime, and computes<br />
+        <code>m1 = pow(m,q1) mod (p)</code>, where <code>pow(a,b)</code> is the exponentiation <code>a</code> to the power <code>b</code>.<br />
+        Then A sends m1 to <strong>B</strong>.</li>
+    <li><strong>B</strong> chooses a random number <code>0&lt;=q2&lt;p</code> such that <code>q1</code> and <code>(p-1)</code> are relatively prime and computes<br />
+        <code>m2 = pow(q1,q2) mod (p)</code><br />
+        and sends <code>m2</code> back to <strong>A</strong>.</li>
+        <li><strong>A</strong> computes <code>q1*</code>, the inverse of <code>q1</code> modulo <code>(p-1)</code> (not modulo p)  and sends <code>m3 = pow(m2,q1*) mod (p)</code> to <strong>B</strong>.</li>
+        <li><strong>B</strong> comptues <code>q2*</code>, the inverse of <code>q2 modulo (p-1)</code> and <code>m4 = pow(m3,q2*) mod (p)</code>.<br />
+        This last <code>m4</code> is equal to <code>m</code> and <strong>B</strong> has the initial message</li>
+</ol>
