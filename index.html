@@ -1,5 +1,26 @@
 ---
-layout: default
+layout: post
 title: no more clear text passwords 
 ---
+
+<h2>What?</h2>
+<p>nmctp.com is a project to <strong>stop the nonsense</strong> regarding  passwords used in the login protocols of most Web 2.0 projects: they are  sent in the clear, shamelessly, with absolutely no care for privacy,  and without warning the users.</p>
+<p>Of course, those projects (some of them) allow the users to opt  for a <a href="http://www.openssl.org/">fully-secured</a> connection, but  you know, if you are just updating a blog, you simply don&#8217;t care about  your connection being encrypted (as far as we know, a blog&#8217;s contents  are usually written to be pubic, ditto for the wikipedia). Also, asking  the <a href="http://en.wikipedia.org/">wikipedia</a> servers to encrypt  all the traffic seems a bit overkill.</p>
+<p>We also aim at POP3, IMAP and SMTP servers which do not  necessarily need the full power of SSL or TLS, but which, please, should  never allow their users to simply <em>shout</em> their passwords.</p>
+<p>Actually, we think a simple tweak of a lot of logging protocols  would make the Internet much safer without overloading the servers all  the time (just while logging the users in). Think even <em>telnet</em> and (do we dare say it?) <em>ftp!</em></p>
+
+<h2>Why?</h2>
+<p>Because we think transmitting passwords in the clear is tantamount  to shouting them on your backyard. And because we are <em>pretty much  sure</em> that a lot of people (we are thinking both elderly people and  youngsters) use the same password for their bank-account transfers and  their personal blog.</p>
+<p>And, no, we <em>do not think they are dumb</em>, we think they are  just misinformed.</p>
+
+<h2>Who?</h2>
+<p>We are (to date) two friends; <a href="http://pfortuny.net/">Pedro Fortuny Ayuso</a> (a Mathematician with a great bias towards IT) and <a href="http://rafacas.net/">Rafael Casado S&aacute;nchez</a> (rafacas) is a  Computer Scientist (an Engineer).</p>
+
+<h2>Where?</h2>
+<p>The project is hosted in <strike>Sourceforge</strike> <a href="http://github.com/nmctp">GitHub</a>.</p>
+
+<h2>How?</h2>
+<p>Due to the <em>PHP</em>-orientation of most <a href="http://en.wikipedia.org/wiki/Content_Management_System">CMS</a>&#8217;s  and <a href="http://en.wikipedia.org/wiki/Wiki">wikis</a> out there, we  have decided to implement a C version of the software together with an  easy-to-port PHP version. The latter will be, for obvious reasons, much  slower than the former, but also <em>probably</em> easy to install on  unfriendly or difficult to manage hosts.</p>
+<p>We use either RSA or Shamir&#8217;s <a href="http://en.wikipedia.org/wiki/Three-pass_protocol">no-key</a> protocol (aka &#8220;Three-pass protocol&#8221;) to encrypt the password. No more  than that.</p>
+<p>Notice that this project seeks <strong>secrecy</strong> for  passwords, but <strong>is not aimed</strong> at fighting  man-in-the-middle attacks. There is a difference between <em>not  shouting your password</em> and <em>fighting an active criminal</em>.</p>
 
