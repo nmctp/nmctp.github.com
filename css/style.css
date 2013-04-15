@@ -10,10 +10,10 @@ h1 { font: normal 2.4em Georgia, Arial, Sans-Serif; margin: 15px 0 0 5px; }
 h1 a:hover { color: #E4FFD3; background: inherit; }
 h2 { font: bold 1.6em Arial, Sans-Serif; margin: 0 0 12px; }
 h4 { color: #808080; background: inherit; font-weight: normal; font-size: .9em; }
-#content { width: 920px; margin: 0 auto; }
+#content { width: 840px; margin: 0 auto; }
 #content p { font-size:1.1em; }
 #logo { float: left; border-bottom: 5px solid #2083A8; height: 58px; width: 330px; }
-#menu { float: right; width: 584px; padding: 10px 0; margin: 19px 0 5px; border-bottom: 5px solid #e0e0e0; }
+#menu { float: right; width: 500px; padding: 10px 0; margin: 19px 0 5px; border-bottom: 5px solid #e0e0e0; }
 #menu li { font-size: 1.1em; display: inline; }
 #menu li a { padding: 17px 3px 0 10px; margin: 0 42px 0 0; background: #fff url(images/menuarrow.jpg) no-repeat 10px 5px; color: #808080; border-left: 1px solid #e0e0e0; }
 #menu li a:hover { color: #000; border-left: 1px solid #2083A8; }
@@ -30,7 +30,7 @@ h4 { color: #808080; background: inherit; font-weight: normal; font-size: .9em; 
 #articles li  { border-top: 1px solid #cecece; list-style: none; float: left; width: 245px; background: #eee url(images/newslist.jpg) repeat-x bottom; padding: 4px 8px; margin: 0 15px 0 0;}
 #articles li a { background: url(images/menuarrow.jpg) no-repeat 0 5px; padding: 0 0 0 8px; }
 #articles li.last { margin: 0; }
-#right { position: relative; top: -140px; padding: 15px; float: right; width: 284px; font-size: .9em; background: #fff; }
+#right { position: relative; top: -140px; padding: 15px; float: right; width: 200px; font-size: .9em; background: #fff; }
 #right img { border: 1px solid #ccc; padding: 1px; margin: 0 0 8px; }
 #left p { font-size: 1.1em; }
 #left h3 { border-bottom: 1px solid #eee; padding: 0 0 7px; margin: 0 0 15px 0; }
