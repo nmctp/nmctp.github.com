@@ -1,0 +1,162 @@
+---
+layout: post
+title: no key man page
+---
+
+<pre>NOKEY(1)                        Authentication                        NOKEY(1)
+
+<strong>NAME</strong>
+       <strong>nokey</strong> - safe autentication using Shamir's no key protocol
+
+<strong>SYNOPSIS</strong>
+       <strong>nokey [</strong><em>options</em><strong>] [</strong><em>file</em><strong>] [</strong><em>number</em><strong>]</strong>
+
+<strong>DESCRIPTION
+</strong>       <strong>nokey</strong> is a utility for providing secure authentication through an inse-
+       cure channel using Shamir's no key (or three-pass)  protocol  over  the
+       group  of  units Z/p (p being a <em>large</em> prime number, designated from now
+       on as the <em>modulus</em>).
+
+       The advantages of the three-pass protocol for authentication are mainly
+       two:  that  passwords  are not sent in the clear over the communication
+       channel and that it needs no certificates or the overload of Public Key
+       Infrastructure (the authentication server might as well fix a new modu-
+       lus  for  each  authentication  attempt,  though  this  would  be  very
+       resource-intensive).
+
+       Moreover,  many  of the Web 2.0 services, such as blogs, chat services,
+       and wikis require <em>only secure authentication</em> (in other words, that  the
+       login/password  pair  is only known to the owner) because virtually all
+       of their content is made public.
+
+       Users of webmail servers may also be  eager  to  trade  non-privacy  of
+       their  mail  (letting  it  go  through the web on the clear) for secure
+       authentication (safe encryption of the login protocol). Actually,  they
+       are trading for nothing nowadays in most cases.
+
+<strong>THE PROTOCOL</strong>
+       Shamir's  no  key  protocol with modulus <em>p</em> works as follows (assume the
+       key -password- is a integer number <em>k</em> between 2 and p-1):
+
+       <strong>init</strong>           The authentication <em>server</em> provides the <em>client</em>  with  the
+                      modulus <em>p</em>
+
+       <strong>encryption 1</strong>   The  <em>client</em>  chooses a random number <em>u1</em>, which is a unit
+                      modulo <em>p-1</em> and computes <em>q1</em> = k^u1 mod(p) [k to the power
+                      u1 modulo p]. The client sends <em>q1</em> to the server.
+
+       <strong>encryption 2</strong>   The  <em>server</em>  chooses  another random unit <em>u2</em> modulo <em>p-1</em>,
+                      and computes <em>q2</em> = q1^u2 mod(p), sending this back to the
+                      client.
+
+       <strong>decryption 1</strong>   The  <em>client</em>  computes v1 = 1/u1 mod(p-1) (the inverse of
+                      u1 modulo p-1) and  sends  <em>q3</em>  =  q2^v1  mod(p)  to  the
+                      server.
+
+       <strong>decryption 2</strong>   Finally, the <em>server</em> computes <em>v2</em> = 1/u2 mod(p-1) and <em>q4</em> =
+                      q3^v2 mod(p). By Fermat's little theorem, one has <em>q4</em> = k
+                      mod(p),  and  the  server  can  now  verify the password
+                      against its database.
+
+       The command <em>no_key_server</em> runs the server-side of  the  protocol.   The
+       client  side  has  to  be implemented specifically (although the source
+       code includes a test client for convenience). As the algorithm requires
+       keeping  track  of  the modulus (unless it is stored in a configuration
+       file) and of the unit <em>u2</em>, the server behaves differently  depending  on
+       the number of parameters it receives:
+
+       <strong>(no params)</strong>    When called with no parameters, <strong>nokey</strong> assumes the client
+                      is initiating the communication, and sends back a  file-
+                      name (without path) and the modulus (either computing it
+                      or reading it from a configuration file), separated by a
+                      space.  The  filename  is  used  as a 'session-tracking'
+                      mechanism.
+
+      <strong> no_key_server</strong> <em>file q1</em>
+                      If <strong>nokey</strong> is called  with  exactly  two  parameters,  the
+                      first  one  is  assumed  to  be  a filename (the session
+                      tracking file) without leading path (the session  direc-
+                      tory  is known by the server) and the second is the num-
+                      ber q1 (as described above in <strong>encryption 1</strong>). The  server
+                      returns  a  string composed of the same filename and the
+                      number q2 separated by a space.
+
+       <strong>no_key_server</strong> <em>file q3 1</em>
+                      When called with exactly three parameters (the last  '1'
+                      may  be  anything), <strong>nokey</strong> performs the <strong>decryption 2</strong> step
+                      and returns the number <em>q4</em> in binary form.
+
+       After all these steps, if the cilent has sent <em>q1</em> and <em>q3</em>  properly,  the
+       last output coincides with the 'password' (modulo p). If the password <strong>k</strong>
+       is, as a number, less than p, then <strong>q4 = k</strong>.
+
+       The size of p, by default, is 512 bits. This allows for  512/8=64  bit-
+       long  passwords, which "<strong>ought to be sufficient</strong>" for most practical pur-
+       poses.
+<strong>
+OPTIONS</strong>
+       <strong>no_key_server</strong> supports the following options:
+
+       <strong>-c</strong> <em>filename</em>    Specify a different modulus file <em>filename</em>.  If  it  does
+                      not  exist,  then  <strong>nokey</strong> will compute a new modulus and
+                      <em>try</em> to store it at <em>filename</em> (for later  use),  but  will
+                      not  complain  or  fail if it cannot write to that file.
+                      Default: <em>/etc/nokey.mod</em>.
+
+       <strong>-t</strong> <em>dir</em>         Use a <em>dir</em> to store temporary files. Default: <em>/tmp</em>.
+
+       <strong>-p</strong> <em>number</em>      Use <em>number</em> as the modulus, instead of reading it from  a
+                      file  or  computing it. In this case, <em>number</em> must be the
+                      hexadecimal expression of a prime number. <em>nokey</em> makes  a
+                      fast check about its primality, but <em>it mostly trusts the
+                      user</em>.
+
+       <strong>-s</strong>             Run as a TCP server. This is still undocumented.
+
+       <strong>-P</strong> <em>port</em>        Use port <em>port</em> to listen on, when  running  as  a  server
+                      with the <strong>-s</strong> option, otherwise useless.
+<strong>
+NOTES ON USAGE</strong>
+<strong>SECURITY</strong>
+       The  security  of <strong>nokey</strong> relies on the difficulty of the discrete- loga-
+       rithm problem, which up to date is assumed enough for the same sizes as
+       RSA  keys  (that  is, about 2048 bits in 2008). For most practical pur-
+       poses, though, a key size of 1024 should be enough.
+
+       There are two steps at which a random integer (modulo p)  needs  to  be
+       generated.  On the server side, this is done using OpenSSL's big number
+       random generator BN_rand, which "generates a  cryptographically  strong
+       pseudo-random  number"  (see  man  3 BN_rand). On the client side, each
+       implementation should take care of this, as knowledge of the  exponents
+       voids the logarithm problem.
+<strong>
+EXIT STATUS</strong>
+       The exit status is 0 on successful completion and non-zero otherwise.
+
+<strong>BUGS</strong>
+       There are no known bugs up to date.
+
+<strong>VERSION</strong>
+       1.0
+
+<strong>AUTHORS</strong>
+       Pedro Fortuny Ayuso &lt;info at pfortuny.net&gt;
+       Rafael Casado Sanchez &lt;rafacas at gmail.com&gt;
+
+<strong>COPYRIGHT</strong>
+       Copyright (C) 2008 Pedro Fortuny Ayuso and Rafael Casado Sanchez
+
+       Permission to use, copy, modify, and/or distribute  this  software  for
+       any  purpose  with  or without fee is hereby granted, provided that the
+       above copyright notice and this permission notice appear in all copies.
+
+       THE  SOFTWARE  IS  PROVIDED  "AS  IS" AND THE AUTHORS DISCLAIM ALL WAR-
+       RANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL  IMPLIED  WARRANTIES
+       OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ANY OF THE AUTHORS BE
+       LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL  DAMAGES  OR
+       ANY  DAMAGES  WHATSOEVER  RESULTING  FROM LOSS OF USE, DATA OR PROFITS,
+       WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS  ACTION,
+       ARISING  OUT  OF  OR  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+       SOFTWARE.
+
+Version 1.0                      October 2008                         NOKEY(1)</pre>
