@@ -1,0 +1,68 @@
+---
+layout: post
+title: No Key Installation
+---
+
+<h2>No Key Installation</h2>
+<p>There are two steps to follow in order to install <code>no_key</code> for securing your web application:</p>
+<p>a) building the server<br />
+b) installing the new safe &#8216;login&#8217; in your webapp</p>
+<h3>a) Building no_key_server</h3>
+<ol>
+<li>Download the latest tgz version of no_key from <a href="https://github.com/nmctp/nokey">Github</a>:
+<p>http://sourceforge.net/projects/nmctp/files/nokey</li>
+<li>Decompress the downloaded tarball:
+<pre><code>$ tar xzvf nokey-&lt;VERSION&gt;.tgz</code></pre>
+</li>
+<li>Get into the newly created directory:
+<pre><code>$ cd nokey-&lt;VERSION&gt;</code></pre>
+</li>
+<li>If you do not have write permission in /etc you need to change the NO_KEY_CONF_FILE constant in the no_key.h file:
+<pre><code>#define NO_KEY_CONF_FILE "/etc/no_key.mod"</code></pre>
+<p>to a directory with write permission like:</p>
+<pre><code>#define NO_KEY_CONF_FILE /my/new/path/to/store/no_key.mod</code></pre>
+<p>it needs not be a read-only file or any secure path</li>
+<li>By default, the value of NO_KEY_SIZE constant (in no_key.h) is 1024. You can change this value to 256, 512 and 2048. This will be run-time configurable in future versions.</li>
+<li>Build no_key:
+<pre><code>$ make</code></pre>
+<p>If the make succeeds, two executable no_key_server and no_key_client will have been built.</li>
+<li>To test no_key_server run:
+<pre><code>$ make test
+./no_key_client 'Teh password!'
+K: : [546568207061737377726F6421]
+p: : [EF4FBB72BD78ADC40481DC3D879253989433046B463B40ACF558580254E413A59420
+5A12A704CFC6D91B2362B203A9510C130F384457617191C1DD0A1A8B107D8247E37B70CE9E
+1FE0154C5A9B6655985C8DC76CECB1B5AEC8DABD49F77FBE24D1E7BBB5383FF17A8F813826
+8332A78F813F43743BC49F5EFE3C0B9A1E48EEDF]
+u1: : [CC10D1DD3DB7850CCFEEEBB1DA256CD0FF0E234C3BE17D0B034187E50BEF39CD05D
+91A8F6C869D3BCDD58CE3715CB40394EFE7A30D089C52FE330C068D6F3F7C116D44E052428
+435F9721E98990F42026409355301518DA7FDBF4F6B0960E7ABC5484196F2E5EC48E511706
+B05C95499A8FEA5044183820CC3B14520CD83D033]
+q1: : [1D259D69AE894E6019E0A6B4720CB54CA4543D8593D7C23B0CEC0C13D5C47081212
+1F54AA01D7DE0EBDBDD415F50C355BB822D133E6AAEAD90C0C9EC3937771F2BC2EB9AB7EB4
+7CC846DF018B33456F696DB73D18BED90674F2AF9AEA4005FCE885B2492503ECABE86D8E87
+930D17D8667545D2EE97E7D060D2CD26ABF065516]
+q2: : [A741DC21757324578BF00E27A59217683CE0BBE2F6F0037D16BC66BAA22619600C7
+5ABEE2B3BB73AE6F5645F7DFFAC91194298A258C34AB94B4BAE4BEC64DBC16A032A8F416BA
+2066A0CC22D205F881D4F48848C050B068D6679F5A140C10A826CCCDD0BD91BBF8133B78C1
+0C187C40D4160D9D5DA07BD1EE3D182005B9FD0A2]
+q3: : [8A268EA5389BAFE40039ACBCDC6360C405E99F58C36F02A609B1799EB873CE8FB13
+1408BC6DC4AC0C5455F01AE5FFECA489E2631043F50C2DB43E183C65EC69772B46BDB087D8
+4D6EAA6B9BE9FA609CBE0AEEAEB6C71C4150DC17EC11996BD02528C53A9C350F0DDB2C25EF
+E2F212BDCD017B94DA39DC861324DA0D994A99C31]
+Key: [Teh password!]
+
+Try ./no_key_client your_password
+</code></pre>
+</li>
+</ol>
+<h3>b) Installing the new safe &#8216;login&#8217; in your webapp</h3>
+<p>The web directory contains a safe login example:</p>
+<ul>
+<li><strong>nokey-config.php</strong>: In this file you need to define the value of <code>NO_KEY_SERVER</code> which is the <code>no_key_server</code> path. Usually it will be <code>../cgi-bin/no_key_server</code>.</li>
+<li><strong>nokey.php</strong>: This file contains the server side of No Key Shamir&#8217;s protocol. In this file the function <code>user_authentication($user, $password)</code> is called. This function is implemented in the file <strong>your_app.php</strong>.<br />
+To add the safe login to your app you will have to replace this function with yours. The authentication function return true if the password is valid and false otherwise.</li>
+<li><strong>your_app.php</strong>: This file pretends the application user authentication. The demo user and password are <em>admin</em> and <em>passw0rd</em>.</li>
+<li><strong>login.php</strong>: This file has a login form (The demo user and password are <em>admin</em> and <em>passw0rd</em>). If the user and password are valid, then a session will be created and it will be redirected to <strong>index.php</strong>.</li>
+<li><strong>logout.php</strong>: In this file the session is destroyed and the browser is redirected to <strong>login.php</strong>.</li>
+</ul>
