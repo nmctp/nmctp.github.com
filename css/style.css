@@ -13,6 +13,7 @@ h4 { color: #808080; background: inherit; font-weight: normal; font-size: .9em; 
 #content { width: 840px; margin: 0 auto; }
 #content p { font-size:1.1em; }
 #logo { float: left; border-bottom: 5px solid #2083A8; height: 58px; width: 330px; }
+#logo a { color:#444444; }
 #menu { float: right; width: 500px; padding: 10px 0; margin: 19px 0 5px; border-bottom: 5px solid #e0e0e0; }
 #menu li { font-size: 1.1em; display: inline; }
 #menu li a { padding: 17px 3px 0 10px; margin: 0 42px 0 0; background: #fff url(images/menuarrow.jpg) no-repeat 10px 5px; color: #808080; border-left: 1px solid #e0e0e0; }
