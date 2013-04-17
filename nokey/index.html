@@ -1,9 +1,9 @@
 ---
-layout: post
+layout: page
 title: No Key
 ---
-<h2>No Key: a simple library for Shamir&#8217;s no-key  protocol</h2>
-<p>Shamir&#8217;s no-key protocol is a way to encrypt a communication using  finite exponentiation. It is similar to Diffie-Hellman in that it  depends on the difficulty of solving the discrete logarithm problem, but  unlike DH, where both parties agree on a previously unkown datum, the  no-key protocol is used to share <em>information</em> (party A transmit  some data to party B).</p>
+<h2>No Key: a simple library for Shamir's no-key protocol</h2>
+<p>Shamir's no-key protocol is a way to encrypt a communication using  finite exponentiation. It is similar to Diffie-Hellman in that it  depends on the difficulty of solving the discrete logarithm problem, but  unlike DH, where both parties agree on a previously unkown datum, the  no-key protocol is used to share <em>information</em> (party A transmit  some data to party B).</p>
 <p>The algorithm is as follows. Assume A wants to transmit message m  (which is an integer number) to B. Both parties have previuosly agreed  on a prime number p, which can be public.</p>
 <ol>
     <li><strong>A</strong> chooses a random number <code>0&lt;=q1&lt;p</code> such that <code>q1</code> and <code>(p-1)</code> are relatively prime, and computes<br />
