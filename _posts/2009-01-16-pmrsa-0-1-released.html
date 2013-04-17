@@ -1,0 +1,10 @@
+---
+layout: post
+title: pmrsa-0.1 released
+---
+
+<p><strong>pmrsa-0.1</strong> is out. It has <code>pm_rsa_server</code>, a utility which receives an hex message and decrypts it  using  RSA  with PKCS-1 padding,  by means of a private key. The message is supposedly the hex dump of the encryption of a plaintex using the corresponding public key (otherwise, it would be noise).</p>
+<p>The program is an attempt at providing 'more-than-plaintext'-safe authentication on the  Internet. It  is intended to be used wrapped up by a CGI server (think of a login CGI script), communicating only with the wrapper, because at the end of the process, the server emits the cleartext  message.</p>
+<p>It  is  obvious  that  some web applications, like blogs, require secret keys, but not necessarily secrecy of the complete communication channel (as SSL and TLS provide), because all of the content on those applications is intended to be public.</p>
+<p>Users  of  webmail  servers  may  also  be eager to trade non-privacy of their mail (letting it go through the web on the clear) for secure authentication (safe encryption of the  login  protocol). Actually, they are trading for nothing nowadays in most cases.</p>
+
